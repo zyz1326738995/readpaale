@@ -22,7 +22,7 @@ public class ExportController {
 
 
 
-	// 导出excel
+	// 导出excel 从v
 	@RequestMapping("exportExcelCurrentPagerUser")
 	public ResponseEntity<byte[]> exportExcelMember(@RequestParam(value = "curr", required = false) Integer curr,
 													@RequestParam(value = "limit", required = false) Integer limit,
