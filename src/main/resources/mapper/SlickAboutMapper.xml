@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.SlickAboutMapper">
+
+    <select id="getSlickAboutList" parameterType="long" resultType="SlickAbout">
+        select * from slick_about where company_id=#{company_id};
+    </select>
+
+    <select id="getAboutCount" resultType="int">
+       SELECT COUNT(1) FROM slick_company a left join slick_about b on a.company_id=b.company_id <include refid="where_getAboutLists"/>
+    </select>
+
+<resultMap id="About_Company" type="SlickAbout">
+    <id property="about_id" column="about_id"/>
+    <result property="about_title" column="about_title"></result>
+    <result property="about_icon" column="about_icon"></result>
+    <result property="about_message" column="about_message"></result>
+    <result property="company_id" column="company_id"></result>
+    <collection property="slickCompany" ofType="com.hz.pojo.SlickCompany">
+        <id property="company_id" column="company_id"></id>
+        <result property="company_name" column="company_name"/>
+        <result property="company_title" column="company_title"/>
+        <result property="company_hot_message" column="company_hot_message"/>
+        <result property="company_hot_message2" column="company_hot_message2"/>
+        <result property="copy_gufen" column="copy_gufen"/>
+        <result property="company_image" column="company_image"/>
+    </collection>
+</resultMap>
+    <sql id="where_getAboutLists">
+        <where>
+            <if test='love!=null and love!="" '   >
+                a.company_name like concat('%',#{love},'%')
+            </if>
+        </where>
+    </sql>
+    <select id="getAboutLists" resultMap="About_Company">
+        SELECT * FROM slick_company a left join slick_about b on a.company_id=b.company_id <include refid="where_getAboutLists"/> ORDER BY a.company_id ASC LIMIT #{curr},#{limit}
+    </select>
+
+    <!--修改会员信息动态SQL-->
+    <sql id="where_updateAbout">
+        <where>
+            <if test="slickAbout.about_id!=null">
+                about_id=#{slickAbout.about_id}
+            </if>
+        </where>
+    </sql>
+
+    <update id="updateAbout" parameterType="slickAbout">
+        update slick_about
+        <set>
+            <if test="slickAbout.about_title != null and slickAbout.about_title !='' ">about_title=#{slickAbout.about_title },</if>
+            <if test="slickAbout.about_message != null and slickAbout.about_message !='' ">about_message=#{slickAbout.about_message },</if>
+        </set>
+        <include refid="where_updateAbout"/>
+    </update>
+
+</mapper>

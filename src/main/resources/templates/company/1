@@ -1,0 +1,233 @@
+<div class="item">
+                <div class="screenshot-thumb">
+                  <img src="img/showcase/canyin.png" class="img-fluid" alt="" />
+                  <div class="hover-content text-center">
+                    <div class="fancy-table">
+                      <div class="table-cell">
+                        <div class="single-text">
+                          <p>餐饮商超行业</p>
+                          <h5>Redesign Slack</h5>
+                        </div>
+                        <div class="zoom-icon">
+                          <a class="lightbox" href="img/showcase/canyin.png"><i class="lni-zoom-in"></i></a>
+                          <a href="#"><i class="lni-link"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="item">
+                <div class="screenshot-thumb">
+                  <img src="img/showcase/office.png" class="img-fluid" alt="" />
+                  <div class="hover-content text-center">
+                    <div class="fancy-table">
+                      <div class="table-cell">
+                        <div class="single-text">
+                          <p>2</p>
+                          <h5>Redesign Slack</h5>
+                        </div>
+                        <div class="zoom-icon">
+                          <a class="lightbox" href="img/showcase/office.png"><i class="lni-zoom-in"></i></a>
+                          <a href="#"><i class="lni-link"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="screenshot-thumb">
+                  <img src="img/showcase/dianqi.png" class="img-fluid" alt="" />
+                  <div class="hover-content text-center">
+                    <div class="fancy-table">
+                      <div class="table-cell">
+                        <div class="single-text">
+                          <p>3</p>
+                          <h5>Redesign Slack</h5>
+                        </div>
+                        <div class="zoom-icon">
+                          <a class="lightbox" href="img/showcase/dianqi.png"><i class="lni-zoom-in"></i></a>
+                          <a href="#"><i class="lni-link"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="screenshot-thumb">
+                  <img src="img/showcase/educate.png" class="img-fluid" alt="" />
+                  <div class="hover-content text-center">
+                    <div class="fancy-table">
+                      <div class="table-cell">
+                        <div class="single-text">
+                          <p>4</p>
+                          <h5>Redesign Slack</h5>
+                        </div>
+                        <div class="zoom-icon">
+                          <a class="lightbox" href="img/showcase/educate.png"><i class="lni-zoom-in"></i></a>
+                          <a href="#"><i class="lni-link"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="screenshot-thumb">
+                  <img src="img/showcase/zaisheng.png" class="img-fluid" alt="" />
+                  <div class="hover-content text-center">
+                    <div class="fancy-table">
+                      <div class="table-cell">
+                        <div class="single-text">
+                          <p>5</p>
+                          <h5>Redesign Slack</h5>
+                        </div>
+                        <div class="zoom-icon">
+                          <a class="lightbox" href="img/showcase/zaisheng.png"><i class="lni-zoom-in"></i></a>
+                          <a href="#"><i class="lni-link"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="screenshot-thumb">
+                  <img src="img/showcase/chatonline.png" class="img-fluid" alt="" />
+                  <div class="hover-content text-center">
+                    <div class="fancy-table">
+                      <div class="table-cell">
+                        <div class="single-text">
+                          <p>6</p>
+                          <h5>Redesign Slack</h5>
+                        </div>
+                        <div class="zoom-icon">
+                          <a class="lightbox" href="img/showcase/chatonline.png"><i class="lni-zoom-in"></i></a>
+                          <a href="#"><i class="lni-link"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+                           <!-- Start Fetatures -->
+                          <!--<div class="feature-item featured-border1">
+                             <div class="feature-icon float-left">
+                               <i class="lni-coffee-cup"></i>
+                             </div>
+                             <div class="feature-info float-left">
+                               <h4 id="1">餐饮行业</h4>
+                               <p id="11">大中小型餐饮公司，量身定制日常经营所需<br>线上方便的办公软件,使餐饮行业飞速发展<br> 包括店内收银和会员管理系统.</p>
+                             </div>
+                          </div>-->
+                          <!-- End Fetatures -->
+                        </div>
+                         <!-- End Col -->
+
+                       <!-- Start Col -->
+                        <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+                           <!-- Start Fetatures -->
+                          <div class="feature-item featured-border2">
+                             <div class="feature-icon float-left">
+                               <i class="lni-briefcase"></i>
+                             </div>
+                             <div class="feature-info float-left">
+                               <h4 id="2">商务办公</h4>
+                               <p id="22">爱好环境人人有责，无纸化办公更能体现 <br> 一个公司的环保意识，加速生态绿色办公<br>构造建设更加美好的环境做贡献.</p>
+                             </div>
+                          </div>
+                          <!-- End Fetatures -->
+                        </div>
+                         <!-- End Col -->
+
+                       <!-- Start Col -->
+                        <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+                           <!-- Start Fetatures -->
+                          <div class="feature-item featured-border1">
+                             <div class="feature-icon float-left">
+                               <i class="lni-invention"></i>
+                             </div>
+                             <div class="feature-info float-left">
+                               <h4 id="3">电器照明</h4>
+                               <p id="33">电器行业发展迅速，全国多家电气企业争 <br> 相合作,促进行业领先带动科技更快进步<br> 人工智能管控公司发展进步</p>
+                             </div>
+                          </div>
+                          <!-- End Fetatures -->
+                        </div>
+                         <!-- End Col -->
+
+                       <!-- Start Col -->
+                        <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+                           <!-- Start Fetatures -->
+                          <div class="feature-item featured-border2">
+                             <div class="feature-icon float-left">
+                              <i class="lni-layers"></i>
+                             </div>
+                             <div class="feature-info float-left">
+                               <h4 id="4">在线教育</h4>
+                               <p id="44">少年强则中国强，促进教育深化改革，响<br> 应国家号召疫情期间线上教学实现教育兴,<br>国伟大战略，中国更富强。</p>
+                             </div>
+                          </div>
+                          <!-- End Fetatures -->
+                        </div>
+                         <!-- End Col -->
+
+                       <!-- Start Col -->
+                        <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+                           <!-- Start Fetatures -->
+                          <div class="feature-item featured-border3">
+                             <div class="feature-icon float-left">
+                               <i class="lni-reload"></i>
+                             </div>
+                             <div class="feature-info float-left">
+                               <h4 id="5">再生资源</h4>
+                               <p id="55">二次资源再利用，可再生，通过定制<br> 化软件让垃圾处理二次资源再生工作更加快速,<br>改善一线工人生产方式。</p>
+                             </div>
+                          </div>
+                          <!-- End Fetatures -->
+                        </div>
+                         <!-- End Col -->
+
+                       <!-- Start Col -->
+                        <div class="col-lg-6 col-md-6 col-xs-12 p-0">
+                           <!-- Start Fetatures -->
+                          <div class="feature-item">
+                             <div class="feature-icon float-left">
+                               <i class="lni-support"></i>
+                             </div>
+                             <div class="feature-info float-left">
+                               <h4 id="6">在线咨询</h4>
+                               <p id="66">生活百科，在线咨询，适用于于各行<br>各业 幼儿，养生，医疗，等百科全书，为您解答<br> 生活中的疑惑，提高智能</p>
+                             </div>
+                          </div>
+                          <!-- End Fetatures -->
+                        </div>

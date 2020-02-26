@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.LsSmRechargerecordMapper">
+
+    <!--会员基本信息-->
+    <sql id="query_SmMember">
+        member_id,member_number,member_name,member_birthday,member_sex,member_level_id,member_addtime,member_state
+    </sql>
+
+
+
+    <!--会员充值记录表-->
+    <sql id="query_SmRechargerecord">
+        rechargerecord_id,rechargerecord_member_id,rechargerecord_summoney,rechargerecord_time,rechargerecord_type
+    </sql>
+
+    <!--会员等级-->
+    <sql id="query_SmLevel">
+        level_id,level_name,level_jifen
+    </sql>
+
+    <!--会员积分记录表-->
+    <sql id="query_SmIntegral">
+        integral_id,integral_member_id,integral_integralnumbers,integral_time,integral_times
+    </sql>
+
+    <!--会员消费记录-->
+    <sql id="query_SmConsumption">
+        consumption_id,consumption_member_id,consumption_money,consumption_time
+    </sql>
+
+    <!--手动映射会员相关信息-->
+    <resultMap id="SmRechargerecord" type="SmRechargerecord">
+        <result property="rechargerecord_id" column="rechargerecord_id"/>
+        <result property="rechargerecord_member_id" column="rechargerecord_member_id"/>
+        <result property="rechargerecord_summoney" column="rechargerecord_summoney"/>
+        <result property="rechargerecord_time" column="rechargerecord_time"/>
+        <result property="rechargerecord_type" column="rechargerecord_type"/>
+
+
+       <!-- <collection property="smConsumptionList" ofType="com.hz.pojo.SmConsumption" >
+            <result property="consumption_id" column="consumption_id"/>
+            <result property="consumption_member_id" column="consumption_member_id"/>
+            <result property="consumption_money" column="consumption_money"/>
+            <result property="consumption_time" column="consumption_time"/>
+        </collection>-->
+
+        <collection property="smMember" ofType="com.hz.pojo.SmMember" >
+            <result property="member_id" column="member_id"/>
+            <result property="member_number" column="member_number"/>
+            <result property="member_name" column="member_name"/>
+            <result property="member_birthday" column="member_birthday"/>
+            <result property="member_sex" column="member_sex"/>
+            <result property="member_level_id" column="member_level_id"/>
+            <result property="member_addtime" column="member_addtime"/>
+            <result property="member_state" column="member_state"/>
+        </collection>
+
+        <collection property="smLevel" ofType="com.hz.pojo.SmLevel" >
+            <result property="level_id" column="level_id"/>
+            <result property="level_name" column="level_name"/>
+            <result property="level_jifen" column="level_jifen"/>
+        </collection>
+
+        <!--<collection property="smIntegral" ofType="com.hz.pojo.SmIntegral" >
+            <result property="integral_id" column="integral_id"/>
+            <result property="integral_member_id" column="integral_member_id"/>
+            <result property="integral_integralnumbers" column="integral_integralnumbers"/>
+            <result property="integral_time" column="integral_time"/>
+        </collection>-->
+
+    </resultMap>
+<!--rechargerecord_id in (select MAX(rechargerecord_id) FROM sm_rechargerecord GROUP BY rechargerecord_member_id)-->
+    <sql id="wheregetSmRechargerecordCount">
+        <where>
+            <if test='love!=null and love!="" '   >
+                  a.member_name like concat('%',#{love},'%')
+            </if>
+            <choose>
+                <when test=" love!=null and love!='' and datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    and rechargerecord_time between #{datemin} and #{datemax}
+                </when>
+                <when test=" datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    and  rechargerecord_time between #{datemin} and #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' and love!=null and love!='' ">
+                    and rechargerecord_time &lt;= #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' ">
+                    and   rechargerecord_time &lt;= #{datemax}
+                </when>
+                <when test="datemin!=null and datemin!='' and love!=null and love!='' ">
+                    and rechargerecord_time >= #{datemin}
+                </when>
+                <when test="datemin!=null and datemin!='' ">
+                    and rechargerecord_time >= #{datemin}
+                </when>
+
+                <otherwise>
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+    <select id="getAllSmRechargerecord" resultMap="SmRechargerecord">
+        SELECT <include refid="query_SmLevel"/>,<include refid="query_SmMember"/>,<include refid="query_SmRechargerecord"/>
+        FROM sm_rechargerecord e
+        LEFT  JOIN sm_member a on e.rechargerecord_member_id=a.member_id
+        LEFT JOIN sm_level b on a.member_level_id=b.level_id
+        <include refid="wheregetSmRechargerecordCount"/>
+        ORDER BY rechargerecord_id DESC
+        LIMIT #{curr},#{limit}
+    </select>
+
+    <select id="exportRechargerecord" resultMap="SmRechargerecord">
+        SELECT <include refid="query_SmLevel"/>,<include refid="query_SmMember"/>,<include refid="query_SmRechargerecord"/>
+        FROM sm_rechargerecord e
+        LEFT  JOIN sm_member a on e.rechargerecord_member_id=a.member_id
+        LEFT JOIN sm_level b on a.member_level_id=b.level_id
+        ORDER BY rechargerecord_id DESC
+    </select>
+
+    <!--查询充值记录数量-->
+    <select id="getSmRechargerecordCount" resultType="int">
+        SELECT COUNT(1)
+        FROM sm_rechargerecord e
+        LEFT  JOIN sm_member a on e.rechargerecord_member_id=a.member_id
+        LEFT JOIN sm_level b on a.member_level_id=b.level_id
+        <include refid="wheregetSmRechargerecordCount"/>
+    </select>
+
+    <insert id="addRechargerecord" parameterType="smRechargerecord">
+        insert sm_rechargerecord (rechargerecord_member_id,rechargerecord_summoney,rechargerecord_time,rechargerecord_type)
+        values (#{rechargerecord_member_id},#{rechargerecord_summoney},NOW(),#{rechargerecord_type})
+    </insert>
+
+    <insert id="addIntegral" parameterType="smIntegral">
+        insert into sm_integral  (integral_member_id,integral_integralnumbers,integral_time)
+        values (#{integral_member_id},0,NOW());
+    </insert>
+    <sql id="where_editIntegralBymemberid">
+        <where>
+            <if test="integral_member_id!=null and integral_member_id!=0">
+                integral_member_id=#{integral_member_id}
+            </if>
+        </where>
+    </sql>
+
+    <update id="editIntegralBymemberid" parameterType="smIntegral">
+        update sm_integral
+        <set>
+            <if test="#{integral_integralnumbers} != null">integral_integralnumbers=#{integral_integralnumbers},</if>
+            <if test="#{integral_time} != null">integral_time=NOW(),</if>
+            <if test="#{integral_times} != null">integral_times=#{integral_times},</if>
+        </set>
+        <include refid="where_editIntegralBymemberid"/>
+    </update>
+
+         <select id="getIntegralBymemberid" parameterType="smIntegral" resultType="SmIntegral">
+             select <include refid="query_SmIntegral"/> from sm_integral  <include refid="where_editIntegralBymemberid"/>
+         </select>
+</mapper>

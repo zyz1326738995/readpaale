@@ -1,0 +1,249 @@
+﻿<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="Bookmark" href="/favicon.ico" >
+	<link rel="Shortcut Icon" href="/favicon.ico" />
+
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="/static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="/static/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/style.css" />
+
+	<![endif]-->
+	<title>斯力克超市会员管理系统</title>
+	<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+	<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" >斯力克超市会员管理系统</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a>
+			<span class="logo navbar-slogan f-l mr-10 hidden-xs">v1.0</span>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<li id="role_name"   class="dropDown dropDown_hover"></li>
+
+					<li class="dropDown dropDown_hover">
+						<a id="admin_account" href="" class="dropDown_A"> </a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
+							<li><a href="login.html">切换管理员</a></li>
+						</ul>
+					</li>
+					<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
+							<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+							<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+							<li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+							<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+							<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<aside class="Hui-aside">
+
+	<div class="menu_dropdown bk_2">
+		<dl id="menu-admin">
+			<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="role.html" data-title="角色管理" href="javascript:void(0)">角色信息</a></li>
+					<li><a data-href="admin.html" data-title="管理员管理" href="javascript:void(0)">管理员信息</a></li>
+				</ul>
+			</dd>
+		</dl>
+
+		<dl id="menu-member">
+			<dt><i class="Hui-iconfont">&#xe60d;</i>用户管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="zixun-list.html" data-title="咨询列表" href="javascript:;">咨询人员</a></li>
+					<li><a data-href="user-list.html" data-title="会员列表" href="javascript:;">会员列表</a></li>
+					<li><a data-href="user-addyear-list.html" data-title="入会周年庆" href="javascript:;">今日幸运用户</a></li>
+				</ul>
+			</dd>
+		</dl>
+
+		<dl id="menu-article">
+			<dt><i class="Hui-iconfont">&#xe621;</i> 网页管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="home_page.html" data-title="首页" href="javascript:void(0)">首页</a></li>
+					<li><a data-href="company_about.html" data-title="关于" href="javascript:;">关于</a></li>
+					<li><a data-href="company_server.html" data-title="服务" href="javascript:;">服务</a></li>
+					<li><a data-href="company_App.html" data-title="展示" href="javascript:void(0)">展示</a></li>
+				</ul>
+			</dd>
+		</dl>
+
+		<dl id="menu-article2">
+			<dt><i class="Hui-iconfont">&#xe616;</i> 会员卡管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="rechargerecord-admin.html" data-title="会员卡充值流水" href="javascript:void(0)">会员卡充值流水</a></li>
+					<li><a data-href="user-money.html" data-title="会员余额" href="javascript:;">会员余额信息</a></li>
+					<li><a data-href="Rechargerecord.html" data-title="会员卡充值" href="javascript:;">会员卡充值</a></li>
+				</ul>
+			</dd>
+		</dl>
+
+	</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<section class="Hui-article-box">
+	<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
+		<div class="Hui-tabNav-wp">
+			<ul id="min_title_list" class="acrossTab cl">
+				<li class="active">
+					<span title="我的桌面" data-href="welcome.html">我的桌面</span>
+					<em></em></li>
+			</ul>
+		</div>
+		<div class="Hui-tabNav-more btn-group"><a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a><a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a></div>
+	</div>
+	<div id="iframe_box" class="Hui-article">
+		<div class="show_iframe">
+			<div style="display:none" class="loading"></div>
+			<iframe id="comppany_html" scrolling="yes" frameborder="0" src="http://49.235.39.168:99/sem?company_id=1"></iframe>
+		</div>
+	</div>
+</section>
+
+<div class="contextMenu" id="Huiadminmenu">
+	<ul>
+		<li id="closethis">关闭当前 </li>
+		<li id="closeall">关闭全部 </li>
+	</ul>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript">
+
+
+
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);//arch,查询？后面的参数，并匹配正则
+        if(r!=null)return  decodeURI(r[2]); return null;
+    }
+
+    document.getElementById("admin_account").innerHTML=GetQueryString("admin_account")+"<i class=\"Hui-iconfont\">&#xe6d5;</i>";
+    document.getElementById("role_name").innerHTML=GetQueryString("role_name");
+
+
+	var role_id=GetQueryString("role_id");
+    layer.alert('欢迎' + GetQueryString("role_name"), {
+        icon: 6,
+        skin: 'layer-ext-moon' //该皮肤由layer.seaning.com友情扩展。关于皮肤的扩展规则，去这里查阅
+    })
+	if(role_id!=1){
+        document.getElementById("menu-admin").style.display = "none";
+	}
+
+    var admin_id=GetQueryString("admin_id");
+    var admin_account =GetQueryString("admin_account");
+    var admin_password =GetQueryString("admin_password");
+    var admin_last_login_date =GetQueryString("admin_last_login_date");
+    var admin_create_date =GetQueryString("admin_addtime");
+
+
+    /*个人信息*/
+    function myselfinfo() {
+       var admin_id=GetQueryString("admin_id");
+        var admin_account =GetQueryString("admin_account");
+        var admin_password =GetQueryString("admin_password");
+        var admin_last_login_date =GetQueryString("admin_last_login_date");
+        var admin_addtime =GetQueryString("admin_addtime");
+
+        layer.open({
+            type: 1,
+            area: ['400px', '500px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.4,
+            title: '个人信息',
+            content: '<div class="cl pd-20" style=" background-color:#5bacb6">\n' +
+          /*  '    /!*<img class="avatar size-XL l" src="static/h-ui/images/ucnter/avatar-default.jpg">\n' +*!/*/
+            '    <dl style="margin-left:80px; color:#fff">\n' +
+            '        <dt>\n' +
+            '            <span class="f-18">' + GetQueryString("admin_account") + '</span>\n' +
+            '        </dt>\n' +
+            '        <dd class="pt-10 f-12" style="margin-left:0">' + GetQueryString("role_name") + '</dd>\n' +
+            '    </dl>\n' +
+            '</div>\n' +
+            '<div class="pd-20">\n' +
+            '    <table class="table">\n' +
+            '        <tbody>\n' +
+            '        <tr>\n' +
+            '            <th height="45" class="text-c">管理员账号：</th>\n' +
+            '            <td>' + GetQueryString("admin_account") + '</td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <th height="45" class="text-c">管理员密码：</th>\n' +
+            '            <td>' + GetQueryString("admin_password") + '</td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <th height="45" class="text-c">最近登录时间：</th>\n' +
+            '            <td>' + GetQueryString("admin_last_login_date") + '</td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <th height="45" class="text-c">注册时间：</th>\n' +
+            '            <td>' +  GetQueryString("admin_addtime") + '</td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td height="45" class="text-c" colspan="2"> <button onclick="change_password(\'修改密码\',\'change-password.html?admin_account=\'+admin_account+\'&admin_id=\'+admin_id,\'400\',\'300\')" type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe6df;</i> 修改密码</button></td>\n' +
+            '        </tr>\n' +
+            '        </tbody>\n' +
+            '    </table>\n' +
+            '</div>'
+        })
+    }
+
+    function change_password(title,url,w,h){
+
+        layer_show(title,url,w,h);
+    }
+
+
+
+
+    var loading;
+    //打开遮罩
+    function openloading(){
+        //loading层
+        loading = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+    }
+    //关闭遮罩
+    function closeloading() {
+        layer.close(loading);
+    }
+
+
+</script>
+
+
+</body>
+</html>

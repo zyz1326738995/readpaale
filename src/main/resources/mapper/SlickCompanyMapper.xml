@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.SlickCompanyMapper">
+    <sql id="where_getSlickCompany">
+        <where>
+            <if test="slickCompany.company_id!=null and slickCompany.company_id!=0">
+               company_id=#{slickCompany.company_id} and
+            </if>
+            <if test="slickCompany.company_name!=null">
+               company_name=#{slickCompany.company_name} and
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="company_instury_app_about" type="com.hz.pojo.SlickCompany">
+
+        <id property="company_id" column="company_id"></id>
+        <result property="company_name" column="company_name"/>
+        <result property="company_title" column="company_title"/>
+        <result property="company_hot_message" column="company_hot_message"/>
+        <result property="company_hot_message2" column="company_hot_message2"/>
+        <result property="copy_gufen" column="copy_gufen"/>
+        <result property="company_image" column="company_image"/>
+
+      <!-- <collection property="slickAppList" ofType="com.hz.pojo.SlickApp">
+            <result property="app_name" column="app_name"></result>
+            <result property="app_price" column="app_price"></result>
+            <result property="app_message" column="app_message"></result>
+            <result property="company_id" column="company_id"></result>
+            <result property="app_image_address" column="app_image_address"></result>
+        </collection>
+        <collection property="slickIndustryList" ofType="com.hz.pojo.SlickIndustry">
+            <id property="industry_id" column="industry_id"/>
+            <result property="industry_name" column="industry_name"></result>
+            <result property="industry_introduce" column="industry_introduce"></result>
+            <result property="industry_icon" column="industry_icon"></result>
+            <result property="industry_app_id" column="industry_app_id"></result>
+            <result property="company_id" column="company_id"></result>
+        </collection>-->
+        <collection property="slickAboutList" ofType="com.hz.pojo.SlickAbout">
+            <id property="about_id" column="about_id"/>
+            <result property="about_title" column="about_title"></result>
+            <result property="about_icon" column="about_icon"></result>
+            <result property="about_message" column="about_message"></result>
+            <result property="company_id" column="company_id"></result>
+        </collection>
+    </resultMap>
+    <select id="getSlickCompany" parameterType="slickCompany" resultType="SlickCompany">
+        select * from slick_company where company_id=#{slickCompany.company_id};
+    </select>
+
+    <select id="getSlickCompanyByName" parameterType="slickCompany" resultType="SlickCompany">
+        select * from slick_company  where company_name=#{slickCompany.company_name} ;
+    </select>
+<sql id="where_getCompanyLists">
+    <where>
+    <if test='love!=null and love!="" '   >
+        company_name like concat('%',#{love},'%')
+    </if>
+    </where>
+</sql>
+    <!--获取数据数量-->
+    <select id="getCompanyCount" resultType="int">
+        SELECT COUNT(1) FROM slick_company <include refid="where_getCompanyLists"/>
+    </select>
+<!--a LEFT JOIN slick_about b
+		on a.company_id=b.company_id  LEFT JOIN slick_industry c
+		on a.company_id=c.company_id  LEFT JOIN slick_app d
+		on a.company_id=d.company_id -->
+    <select id="getCompanyLists" resultType="SlickCompany">
+        SELECT * FROM slick_company <include refid="where_getCompanyLists"/>
+         ORDER BY company_id ASC LIMIT #{curr},#{limit}
+    </select>
+    <!--修改会员信息动态SQL-->
+    <sql id="where_updateCompany">
+        <where>
+            <if test="slickCompany.company_id!=null">
+                company_id=#{slickCompany.company_id}
+            </if>
+        </where>
+    </sql>
+
+    <update id="updateCompany" parameterType="slickCompany">
+        update slick_company
+        <set>
+            <if test="slickCompany.company_name != null and slickCompany.company_name !='' ">company_name=#{slickCompany.company_name },</if>
+            <if test="slickCompany.company_title != null and slickCompany.company_title !='' ">company_title=#{slickCompany.company_title },</if>
+            <if test="slickCompany.company_hot_message != null and slickCompany.company_hot_message !='' ">company_hot_message=#{slickCompany.company_hot_message },</if>
+            <if test="slickCompany.company_hot_message2 != null and slickCompany.company_hot_message2 !=''  ">company_hot_message2=#{slickCompany.company_hot_message2 },</if>
+            <if test="slickCompany.copy_gufen != null and slickCompany.copy_gufen != '' ">copy_gufen=#{slickCompany.copy_gufen },</if>
+        </set>
+        <include refid="where_updateCompany"/>
+    </update>
+</mapper>

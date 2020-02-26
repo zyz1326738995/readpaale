@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.SlickAdminMapper">
+<!--手动映射-->
+<resultMap id="Slick_Admin_role" type="SlickAdmin">
+    <result property="admin_id" column="admin_id"/>
+    <result property="admin_name" column="admin_name"/>
+    <result property="admin_pwd" column="admin_pwd"/>
+    <result property="admin_role_id" column="admin_role_id"/>
+    <result property="admin_addtime" column="admin_addtime"/>
+    <result property="admin_login_endtime" column="admin_login_endtime"/>
+    <result property="admin_login_number" column="admin_login_number"/>
+    <result property="admin_state" column="admin_state"/>
+    <result property="company_id" column="company_id"/>
+    <association property="slickRole" javaType="com.hz.pojo.SlickRole">
+        <id property="role_id" column="role_id"></id>
+        <result property="role_name" column="role_name"></result>
+        <result property="role_remarks" column="role_remarks"></result>
+        <result property="role_number" column="role_number"></result>
+        <result property="company_id" column="company_id"/>
+    </association>
+</resultMap>
+
+    <!--查询条件-->
+    <sql id="wheregetAdminCount">
+        <where>
+            <if test='love!=null and love!="" '   >
+                admin_name like concat('%',#{love},'%')
+            </if>
+            <choose>
+                <when test=" love!=null and love!='' and datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    and admin_addtime between #{datemin} and #{datemax}
+                </when>
+                <when test=" datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    admin_addtime between #{datemin} and #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' and love!=null and love!='' ">
+                    and admin_addtime &lt;= #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' ">
+                    admin_addtime &lt;= #{datemax}
+                </when>
+                <when test="datemin!=null and datemin!='' and love!=null and love!='' ">
+                    and admin_addtime >= #{datemin}
+                </when>
+                <when test="datemin!=null and datemin!='' ">
+                    admin_addtime >= #{datemin}
+                </when>
+
+                <otherwise>
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+    <!--查询管理员-->
+    <select id="getSlickAdmin" parameterType="slickAdmin" resultMap="Slick_Admin_role">
+        select * from slick_admin a left join  slick_role b
+        on a.admin_role_id=b.role_id
+        where a.company_id=#{slickAdmin.company_id}
+        and a.admin_name=#{slickAdmin.admin_name} and a.admin_pwd=#{slickAdmin.admin_pwd};
+    </select>
+
+
+    <!--修改会员信息动态SQL-->
+    <sql id="where_editSlickAdmin">
+        <where>
+            <if test="slickAdmin.admin_id!=null">
+                admin_id=#{slickAdmin.admin_id}
+            </if>
+        </where>
+    </sql>
+    <!--修改会员信息-->
+    <update id="editSlickAdmin" parameterType="slickAdmin">
+        update slick_admin
+        <set>
+            <if test="slickAdmin.admin_pwd != null and slickAdmin.admin_pwd !='' ">admin_pwd=#{slickAdmin.admin_pwd },</if>
+            <if test="slickAdmin.admin_login_endtime != null and slickAdmin.admin_login_endtime != '' ">admin_login_endtime=NOW(),</if>
+            <if test="slickAdmin.admin_login_number != null and slickAdmin.admin_login_number !=''  ">admin_login_number=#{slickAdmin.admin_login_number},</if>
+            <if test="slickAdmin.company_id != null and slickAdmin.company_id != ''">company_id=#{slickAdmin.company_id},</if>
+            <if test="slickAdmin.admin_role_id != null and slickAdmin.admin_role_id != ''">admin_role_id=#{slickAdmin.admin_role_id },</if>
+            <if test="slickAdmin.admin_state != null and slickAdmin.admin_state != ''">admin_state=#{slickAdmin.admin_state },</if>
+        </set>
+        <include refid="where_editSlickAdmin"/>
+    </update>
+
+
+    <!--获取数据数量-->
+    <select id="getAdminCount" resultType="int">
+        SELECT COUNT(1) FROM slick_admin a LEFT JOIN slick_role b on a.admin_role_id=b.role_id  <include refid="wheregetAdminCount"/>
+    </select>
+
+    <!--获取全部管理员信息-->
+    <select id="getAllAdmin" resultMap="Slick_Admin_role">
+        select * FROM slick_admin LEFT JOIN slick_role ON admin_role_id=role_id
+        <include refid="wheregetAdminCount"/> group by admin_id order by admin_id desc
+        LIMIT #{curr},#{limit}
+    </select>
+
+    <insert id="addSlickAdmin" parameterType="slickAdmin">
+        insert into slick_admin (admin_name,admin_pwd,admin_role_id, admin_addtime,company_id) values (
+        #{slickAdmin.admin_name},#{slickAdmin.admin_pwd},#{slickAdmin.admin_role_id},NOW(),#{slickAdmin.company_id}
+        );
+    </insert>
+
+</mapper>

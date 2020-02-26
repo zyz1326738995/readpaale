@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.SlickUserMapper">
+    <!--(user_name,user_industry_id,user_message,user_addtime,user_budget,use_phone,company_id,industry_name, industry_app_id, industry_introduce, industry_icon,)-->
+
+    <resultMap id="slickUser_slickIndustry_slickApp" type="SlickUser">
+        <result property="user_name" column="user_name"/>
+        <result property="user_message" column="user_message"/>
+        <result property="user_industry_id" column="user_industry_id"/>
+        <result property="user_addtime" column="user_addtime"/>
+        <result property="user_budget" column="user_budget"/>
+        <result property="use_phone" column="use_phone"/>
+        <association property="slickApp" javaType="com.hz.pojo.SlickApp">
+            <id property="app_id" column="app_id"/>
+            <result property="app_name" column="app_name"></result>
+            <result property="app_price" column="app_price"></result>
+            <result property="app_message" column="app_message"></result>
+            <result property="company_id" column="company_id"></result>
+            <result property="app_image_address" column="app_image_address"></result>
+        </association>
+        <association property="slickIndustry" javaType="com.hz.pojo.SlickIndustry">
+            <id property="industry_id" column="industry_id"/>
+            <result property="industry_name" column="industry_name"></result>
+            <result property="industry_introduce" column="industry_introduce"></result>
+            <result property="industry_icon" column="industry_icon"></result>
+            <result property="industry_app_id" column="industry_app_id"></result>
+            <result property="company_id" column="company_id"></result>
+        </association>
+    </resultMap>
+
+    <!--查询条件-->
+    <sql id="wheregetUserCount">
+        <where>
+            <if test='love!=null and love!="" '   >
+                user_name like concat('%',#{love},'%')
+            </if>
+            <choose>
+                <when test=" love!=null and love!='' and datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    and user_addtime between #{datemin} and #{datemax}
+                </when>
+                <when test=" datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    user_addtime between #{datemin} and #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' and love!=null and love!='' ">
+                    and user_addtime &lt;= #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' ">
+                    user_addtime &lt;= #{datemax}
+                </when>
+                <when test="datemin!=null and datemin!='' and love!=null and love!='' ">
+                    and user_addtime >= #{datemin}
+                </when>
+                <when test="datemin!=null and datemin!='' ">
+                    user_addtime >= #{datemin}
+                </when>
+
+                <otherwise>
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+    <insert id="insertUser" parameterType="slickUser">
+             insert into slick_user(user_name,user_industry_id,user_message,user_addtime,user_budget,use_phone,company_id) values (
+             #{user_name},#{user_industry_id},
+             #{user_message},NOW(),#{user_budget},#{use_phone},#{company_id});
+    </insert>
+
+
+    <!--获取数据数量-->
+    <select id="getUserCount" resultType="int">
+        SELECT COUNT(1) FROM slick_user a left join slick_industry b
+        on a.user_industry_id=b.industry_id
+        left join slick_app c
+        on b.industry_app_id=c.app_id
+        <include refid="wheregetUserCount"/>
+    </select>
+
+    <!--获取全部管理员信息-->
+    <select id="getAllUser" resultMap="slickUser_slickIndustry_slickApp">
+        select * FROM slick_user a left join slick_industry b
+        on a.user_industry_id=b.industry_id
+        left join slick_app c
+        on b.industry_app_id=c.app_id
+        <include refid="wheregetUserCount"/>  order by a.user_id desc
+        LIMIT #{curr},#{limit}
+    </select>
+
+    <select id="exportExeclAllUser" resultMap="slickUser_slickIndustry_slickApp">
+        select * FROM slick_user a left join slick_industry b
+        on a.user_industry_id=b.industry_id
+        left join slick_app c
+        on b.industry_app_id=c.app_id order by a.user_id desc
+    </select>
+</mapper>

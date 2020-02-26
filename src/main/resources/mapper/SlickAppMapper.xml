@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.SlickAppMapper">
+
+    <select id="getSlickAppList" parameterType="long" resultType="SlickApp">
+        select * from slick_app where company_id=#{company_id};
+    </select>
+
+
+    <select id="getAppCount" resultType="int">
+        SELECT COUNT(1) from  slick_app a left join slick_company b on  a.company_id=b.company_id <include refid="where_getAppLists"/>
+    </select>
+    <resultMap id="App_Company" type="SlickApp">
+        <id property="app_id" column="app_id"/>
+        <result property="app_name" column="app_name"></result>
+        <result property="app_price" column="app_price"></result>
+        <result property="app_message" column="app_message"></result>
+        <result property="company_id" column="company_id"></result>
+        <result property="app_image_address" column="app_image_address"></result>
+        <collection property="slickCompany" ofType="com.hz.pojo.SlickCompany">
+            <id property="company_id" column="company_id"></id>
+            <result property="company_name" column="company_name"/>
+            <result property="company_title" column="company_title"/>
+            <result property="company_hot_message" column="company_hot_message"/>
+            <result property="company_hot_message2" column="company_hot_message2"/>
+            <result property="copy_gufen" column="copy_gufen"/>
+            <result property="company_image" column="company_image"/>
+        </collection>
+        <collection property="slickIndustry" ofType="com.hz.pojo.SlickIndustry">
+            <id property="industry_id" column="industry_id"/>
+            <result property="industry_name" column="industry_name"></result>
+            <result property="industry_app_id" column="industry_app_id"></result>
+            <result property="industry_introduce" column="industry_introduce"></result>
+            <result property="industry_icon" column="industry_icon"></result>
+            <result property="company_id" column="company_id"></result>
+        </collection>
+    </resultMap>
+    <sql id="where_getAppLists">
+        <where>
+            <if test='love!=null and love!="" '   >
+                b.company_name like concat('%',#{love},'%')
+            </if>
+        </where>
+    </sql>
+    <select id="getAppLists" resultMap="App_Company">
+        SELECT * FROM slick_app a left join slick_company b on a.company_id=b.company_id
+                                    left  join  slick_industry c on c.industry_app_id=a.app_id
+        <include refid="where_getAppLists"/>ORDER BY a.company_id ASC LIMIT #{curr},#{limit}
+    </select>
+
+    <!--修改会员信息动态SQL-->
+    <sql id="where_updateApp">
+        <where>
+            <if test="slickApp.app_id!=null">
+                app_id=#{slickApp.app_id}
+            </if>
+        </where>
+    </sql>
+    <update id="updateApp" parameterType="slickApp">
+        update slick_app
+        <set>
+            <if test="slickApp.app_name != null and slickApp.app_name !='' ">app_name=#{slickApp.app_name },</if>
+            <if test="slickApp.app_price != null and slickApp.app_price !='' ">app_price=#{slickApp.app_price },</if>
+            <if test="slickApp.app_message != null and slickApp.app_message !='' ">app_message=#{slickApp.app_message },</if>
+        </set>
+        <include refid="where_updateApp"/>
+    </update>
+
+</mapper>

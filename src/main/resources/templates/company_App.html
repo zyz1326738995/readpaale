@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        /*
+                td {
+                    white-space:nowrap;overflow:hidden;text-overflow: ellipsis;
+                }*/
+
+    </style>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" href="/static/h-ui.admin/css/layui.css" media="all" />
+    <![endif]-->
+    <title>公司列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <a href="http://49.235.39.168:99/sem?company_id=1" >首页</a> <span class="c-gray en">&gt;</span> 网页管理 <span class="c-gray en">&gt;</span> 产品列表 <a id="sx" class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <input type="text" class="input-text" style="width:250px" placeholder="输入公司名称" id="love" name="">
+    <button onclick="search()" type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜公司</button>
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th scope="col" colspan="9">产品列表</th>
+        </tr>
+        <tr class="text-c">
+            <th width="40">NO</th>
+            <th width="100">产品名称</th>
+            <th width="200">产品价格</th>
+            <th width="200">产品介绍</th>
+            <th width="200">产品服务行业</th>
+            <th width="100">所属公司</th>
+            <th width="40">修改</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+
+    </table>
+    <div id="page">暂无数据</div>
+
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script src="/lib/layui.js"></script>
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript">
+
+    function sx() {
+        var sx = document.getElementById('sx');
+        sx.click();
+        sx.click();
+
+    }
+
+    function admin_add(title,url,w,h){
+        layer_show(title,url,w,h);
+    }
+
+    var curr=1 ;
+    var limit=10 ;
+    var total ;
+    var love = "";
+    function search() {
+        love = $("#love").val();
+        getInfo();
+        toPage();
+
+    }
+
+
+
+    $(document).ready(function () {
+        love = null;
+        getInfo();
+        toPage();
+    });
+
+
+
+    function getInfo() {
+        parent.openloading();
+        $.ajax({
+            type:"post",
+            url:"/SlickAppController/getAppPager",
+            dataType:"json",
+            async:false,
+            data:{
+                "curr":curr,
+                "limit":limit,
+                "love":love
+            },
+            success:successFu
+
+        })
+
+    }
+
+    function successFu(pager) {
+        $("tbody").html("");
+        curr = pager.curr;
+        limit = pager.limit;
+        total = pager.total;
+        var text = "";
+        var i=(curr-1)*limit+1;
+
+        $.each(pager.data, function () {
+            text += "<tr class=\"text-c\">";
+            text += "<td>" + (i++) + "</td>";
+            text += "<td style='display: none'>" + this.app_id + "</td>";
+            // alert(this.company_id)
+            text += "<td>" + this.app_name + "</td>";
+            text += "<td >" + this.app_price  + "</td>";
+            text += "<td >" + this.app_message  + "</td>";
+            text += "<td>" + this.slickIndustry.industry_name + "</td>";
+            text += "<td>" + this.slickCompany.company_name + "</td>";
+            text += "<td><a title=\"编辑\"onClick=\"weizhi_id(this,id)\" href=\"javascript:;\"  style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a></td>";
+            text += "</tr>";
+        })
+        $("tbody").html(text);
+        parent.closeloading();
+        if (pager.total == 0) {
+            $("tbody").html("<tr><td colspan='7' class='text-center'>暂无数据</td></tr>");
+            return;
+        }
+    }
+    function system_category_edit(name,title,url,w,h){
+        layer_show(name,title,url,w,h);
+    }
+    function weizhi_id(obj,id){
+        var app_id=$(obj).parent().prev().prev().prev().prev().prev().prev().html();
+      var app_name=$(obj).parent().prev().prev().prev().prev().prev().html();
+     var app_price=$(obj).parent().prev().prev().prev().prev().html();
+   var app_message=$(obj).parent().prev().prev().prev().html();
+ var industry_name=$(obj).parent().prev().prev().html();
+ var company_name=$(obj).parent().prev().html();
+        //
+        //var url="edit_company.html?company_id="+company_id+"&company_name="+company_name+"&company_title="+company_title+"&company_hot_message="+company_hot_message+"&company_hot_message2="+company_hot_message2+"copy_gufen="+copy_gufen;
+        system_category_edit(company_name+'---修改产品','edit_app.html?company_name='+company_name+'&industry_name='+industry_name+'&app_message='+app_message+'&app_price='+app_price+'&app_name='+app_name+'&app_id='+app_id
+            ,'800','500')
+    }
+
+    function toPage() {
+        layui.use('laypage', function () {
+            laypage = layui.laypage;
+            laypage.render({
+                count: total,
+                elem: 'page',
+                limits: [5,10, 25, 50, 100],
+                first: '首页',
+                last: '尾页',
+                prev: '<em><<</em>',
+                next: '<em>>></em>',
+                layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+                jump: function (data, first) {
+                    curr = data.curr;
+                    limit = data.limit;
+                    if (!first) {
+                        getInfo();
+                    }
+                }
+            });
+        })
+    }
+</script>
+</body>
+</html>

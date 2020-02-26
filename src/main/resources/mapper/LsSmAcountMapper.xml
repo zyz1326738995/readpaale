@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.LsSmAcountMapper">
+
+    <sql id="query_SmAcount">
+        account_id,account_member_id,account_money,account_summoney,account_addtime
+    </sql>
+
+    <insert id="addSmAcount" parameterType="smAcount">
+        insert sm_acount(account_member_id,account_money,account_summoney,account_addtime) values (
+        #{account_member_id},0,0,NOW()
+        )
+    </insert>
+
+    <sql id="where_getSmAcountByMemberId">
+        <where>
+            <if test="account_member_id!=null and account_member_id!=0">
+                account_member_id=#{account_member_id}
+            </if>
+            <if test="account_id!=null and account_id!=0">
+              and  account_id=#{account_id}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getSmAcountByMemberId" parameterType="smAcount" resultType="SmAcount">
+        select <include refid="query_SmAcount"/> from sm_acount <include refid="where_getSmAcountByMemberId"/>
+    </select>
+
+    <update id="editSmAcountBySmAcount" parameterType="smAcount">
+        update sm_acount
+        <set>
+            <if test="#{account_money} != null">account_money=#{account_money},</if>
+            <if test="#{account_summoney} != null">account_summoney=#{account_summoney},</if>
+        </set>
+        <include refid="where_getSmAcountByMemberId"/>
+    </update>
+
+</mapper>

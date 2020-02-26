@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="/static/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" href="/static/h-ui.admin/css/layui.css" media="all" />
+    <![endif]-->
+    <title>管理员列表</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <a href="welcome.html" >首页</a> <span class="c-gray en">&gt;</span><a title="回到会员信息详情页" href="user-list.html" >会员管理</a>  <span class="c-gray en">&gt;</span> 会员充值记录 <a id="sx" class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th scope="col" colspan="9">历史充值列表</th>
+        </tr>
+        <tr class="text-c">
+            <th width="40">NO</th>
+            <th width="150">充值金额</th>
+            <th width="180">充值时间</th>
+            <th width="130">支付类型</th>
+            <th width="130">本次获得会员积分</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+
+    </table>
+    <div id="page">asd</div>
+
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script src="/lib/layui.js"></script>
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript">
+
+    function sx() {
+        var sx = document.getElementById('sx');
+        sx.click();
+        sx.click();
+
+    }
+
+    function admin_add(title,url,w,h){
+        layer_show(title,url,w,h);
+    }
+
+
+
+
+
+
+
+    var curr=1 ;
+    var limit=10 ;
+    var total ;
+    var datemin ="";
+    var datemax = "";
+
+
+    var love ="";
+
+
+
+    $(document).ready(function () {
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);//arch,查询？后面的参数，并匹配正则
+            if(r!=null)return  decodeURI(r[2]); return null;
+        }
+        var member_id = GetQueryString("member_id");
+
+        love = member_id;
+        getInfo();
+        toPage();
+    });
+
+
+
+    function getInfo() {
+        parent.openloading();
+        $.ajax({
+            type:"post",
+            url:"/LsSmRechargerecordController/getAllSmRechargerecord",
+            dataType:"json",
+            async:false,
+            data:{
+                "curr":curr,
+                "limit":limit,
+                "datemin":datemin,
+                "datemax":datemax,
+                "Member_id":love
+            },
+            success:successFu
+
+        })
+
+    }
+
+    function successFu(pager) {
+        $("tbody").html("");
+
+        curr = pager.curr;
+        limit = pager.limit;
+        total = pager.total;
+
+        var text = "";
+        var i=(curr-1)*limit+1;
+        $.each(pager.data, function () {
+            text += "<tr class=\"text-c\">";
+            text += "<td>" + (i++) + "</td>";
+            text += "<td>" + this.rechargerecord_summoney  + "</td>";
+            text += "<td>" + this.rechargerecord_time  + "</td>";
+            if (this.rechargerecord_type==1){
+                text += "<td>" + "现金" + "</td>";
+            }else if (this.rechargerecord_type==2){
+                text += "<td>" + "微信" + "</td>";
+            }else if (this.rechargerecord_type==3){
+                text += "<td>" + "支付宝" + "</td>";
+            }else if (this.rechargerecord_type==4){
+                text += "<td>" + "银行卡" + "</td>";
+            };
+            text += "<td>" + this.rechargerecord_summoney  + "</td>";
+            text += "</tr>";
+        })
+
+
+        $("tbody").html(text);
+        parent.closeloading();
+        if (pager.total == 0) {
+            $("tbody").html("<tr><td colspan='7' class='text-center'>暂无数据</td></tr>");
+            return;
+        }
+    }
+
+
+
+
+    function toPage() {
+        layui.use('laypage', function () {
+            laypage = layui.laypage;
+            laypage.render({
+                count: total,
+                elem: 'page',
+                limits: [5,10, 25, 50, 100],
+                first: '首页',
+                last: '尾页',
+                prev: '<em><<</em>',
+                next: '<em>>></em>',
+                layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+                jump: function (data, first) {
+                    curr = data.curr;
+                    limit = data.limit;
+                    if (!first) {
+                        getInfo();
+                    }
+                }
+            });
+        })
+    }
+</script>
+</body>
+</html>

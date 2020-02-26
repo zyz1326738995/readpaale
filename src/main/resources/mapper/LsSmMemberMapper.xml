@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.LsSmMemberMapper">
+
+    <!--会员基本信息-->
+    <sql id="query_SmMember">
+member_id,member_number,member_name,member_birthday,member_sex,member_level_id,member_addtime,member_state
+    </sql>
+
+    <!--会员充值记录表-->
+    <sql id="query_SmRechargerecord">
+        rechargerecord_id,rechargerecord_member_id,rechargerecord_summoney,rechargerecord_time,rechargerecord_type
+    </sql>
+
+    <!--会员等级-->
+    <sql id="query_SmLevel">
+      level_id,level_name,level_jifen
+    </sql>
+
+    <!--会员积分记录表-->
+    <sql id="query_SmIntegral">
+      integral_id,integral_member_id,integral_integralnumbers,integral_time,integral_times
+    </sql>
+
+    <!--会员消费记录-->
+    <sql id="query_SmConsumption">
+        consumption_id,consumption_member_id,consumption_money,consumption_time
+    </sql>
+    <!--会员账户-->
+    <sql id="query_SmAcount">
+        account_id,account_member_id,account_money,account_summoney,account_addtime
+    </sql>
+    <!--手动映射会员相关信息-->
+    <resultMap id="smMemberAllInfo" type="SmMember">
+
+        <result property="member_id" column="member_id"/>
+        <result property="member_number" column="member_number"/>
+        <result property="member_name" column="member_name"/>
+        <result property="member_birthday" column="member_birthday"/>
+        <result property="member_sex" column="member_sex"/>
+        <result property="member_level_id" column="member_level_id"/>
+        <result property="member_addtime" column="member_addtime"/>
+        <result property="member_state" column="member_state"/>
+
+        <collection property="smConsumptionList" ofType="com.hz.pojo.SmConsumption" >
+            <result property="consumption_id" column="consumption_id"/>
+            <result property="consumption_member_id" column="consumption_member_id"/>
+            <result property="consumption_money" column="consumption_money"/>
+            <result property="consumption_time" column="consumption_time"/>
+        </collection>
+
+        <collection property="smRechargerecordList" ofType="com.hz.pojo.SmRechargerecord" >
+            <result property="rechargerecord_id" column="rechargerecord_id"/>
+            <result property="rechargerecord_member_id" column="rechargerecord_member_id"/>
+            <result property="rechargerecord_summoney" column="rechargerecord_summoney"/>
+            <result property="rechargerecord_time" column="rechargerecord_time"/>
+            <result property="rechargerecord_type" column="rechargerecord_type"/>
+        </collection>
+
+        <collection property="smLevel" ofType="com.hz.pojo.SmLevel" >
+            <result property="level_id" column="level_id"/>
+            <result property="level_name" column="level_name"/>
+            <result property="level_jifen" column="level_jifen"/>
+        </collection>
+
+        <collection property="smIntegral" ofType="com.hz.pojo.SmIntegral" >
+            <result property="integral_id" column="integral_id"/>
+            <result property="integral_member_id" column="integral_member_id"/>
+            <result property="integral_integralnumbers" column="integral_integralnumbers"/>
+            <result property="integral_time" column="integral_time"/>
+            <result property="integral_times" column="integral_times"/>
+        </collection>
+
+        <collection property="smAcount" ofType="com.hz.pojo.SmAcount" >
+            <result property="account_id" column="account_id"/>
+            <result property="account_member_id" column="account_member_id"/>
+            <result property="account_money" column="account_money"/>
+            <result property="account_summoney" column="account_summoney"/>
+            <result property="account_addtime" column="account_addtime"/>
+        </collection>
+
+    </resultMap>
+
+    <sql id="wheregetMemberCount">
+        <where>
+            <if test='love!=null and love!="" '   >
+                member_name like concat('%',#{love},'%')
+            </if>
+            <choose>
+                <when test=" love!=null and love!='' and datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    and member_addtime between #{datemin} and #{datemax}
+                </when>
+                <when test=" datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    member_addtime between #{datemin} and #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' and love!=null and love!='' ">
+                    and member_addtime &lt;= #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' ">
+                    member_addtime &lt;= #{datemax}
+                </when>
+                <when test="datemin!=null and datemin!='' and love!=null and love!='' ">
+                    and member_addtime >= #{datemin}
+                </when>
+                <when test="datemin!=null and datemin!='' ">
+                    member_addtime >= #{datemin}
+                </when>
+
+                <otherwise>
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+    <sql id="wheregetMemberCountyears">
+        <where>
+            <if test='love!=null and love!="" '   >
+                member_name like concat('%',#{love},'%')
+            </if>
+            <choose>
+                <when test="true" >
+                 and   SUBSTRING(member_addtime, 6, 5)=SUBSTRING(NOW(), 6, 5)
+                </when>
+                <when test=" love!=null and love!='' and datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    and member_addtime between #{datemin} and #{datemax}
+                </when>
+                <when test=" datemin!=null and datemin!='' and datemax!=null and datemax!='' ">
+                    member_addtime between #{datemin} and #{datemax}
+                </when>
+                <when test="datemax!=null and datemax!='' and love!=null and love!='' ">
+                    and member_addtime &lt;= #{datemax}
+                        </when>
+                <when test="datemax!=null and datemax!='' ">
+                    member_addtime &lt;= #{datemax}
+                </when>
+                <when test="datemin!=null and datemin!='' and love!=null and love!='' ">
+                    and member_addtime >= #{datemin}
+                </when>
+                <when test="datemin!=null and datemin!='' ">
+                    member_addtime >= #{datemin}
+                </when>
+
+
+                <otherwise>
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+    <!--查询会员信息-->
+    <select id="getsmMemberAllInfo" resultMap="smMemberAllInfo">
+
+        SELECT <include refid="query_SmMember"/>,<include refid="query_SmLevel"/>,<include refid="query_SmIntegral"/>,<include
+            refid="query_SmAcount"/>
+        FROM sm_member a
+        LEFT JOIN sm_level d on a.member_level_id=d.level_id
+        LEFT JOIN sm_integral b on a.member_id=b.integral_member_id
+        LEFT JOIN sm_acount c on a.member_id=c.account_member_id
+        <include refid="wheregetMemberCount"/> order by member_id desc
+        LIMIT #{curr},#{limit}
+
+    </select>
+
+    <!--查询会员数量-->
+    <select id="getMemberCountyears" resultType="int">
+        select COUNT(1) from sm_member <include refid="wheregetMemberCountyears"/>
+    </select>
+    <!--查询会员信息-->
+    <select id="getsAllmMemberAllInfoyears" resultMap="smMemberAllInfo">
+
+        SELECT <include refid="query_SmMember"/>,<include refid="query_SmLevel"/>,<include refid="query_SmIntegral"/>,<include
+            refid="query_SmAcount"/>
+        FROM sm_member a
+        LEFT JOIN sm_level d on a.member_level_id=d.level_id
+        LEFT JOIN sm_integral b on a.member_id=b.integral_member_id
+        LEFT JOIN sm_acount c on a.member_id=c.account_member_id
+        <include refid="wheregetMemberCountyears"/>  order by member_id desc
+        LIMIT #{curr},#{limit}
+
+    </select>
+    <!--查询会员信息-->
+    <select id="exportExcelMember" resultMap="smMemberAllInfo">
+
+        SELECT <include refid="query_SmMember"/>,<include refid="query_SmLevel"/>,<include refid="query_SmIntegral"/>,<include
+            refid="query_SmAcount"/>
+        FROM sm_member a
+        LEFT JOIN sm_level d on a.member_level_id=d.level_id
+        LEFT JOIN sm_integral b on a.member_id=b.integral_member_id
+        LEFT JOIN sm_acount c on a.member_id=c.account_member_id order by member_id desc
+    </select>
+    <update id="UpdateStates">
+        UPDATE sm_member SET member_state=#{member_state} WHERE member_id=#{member_id}
+    </update>
+
+    <!--查询会员数量-->
+    <select id="getMemberCount" resultType="int">
+        select COUNT(1) from sm_member <include refid="wheregetMemberCount"/>
+    </select>
+
+    <!--新增会员注册-->
+    <insert id="addSmMember" parameterType="smMember">
+        insert sm_member(member_number,member_name,member_birthday,member_sex,member_level_id,member_addtime,member_state) values (
+                        #{member_number},#{member_name},#{member_birthday},#{member_sex},1,NOW(),2
+        )
+    </insert>
+
+    <sql id="where_getMemberByNameAndNumb">
+
+        <where>
+
+            <if test="member_number!=null">
+                member_number=#{member_number}
+            </if>
+
+            <if test="member_name!=null">
+                and member_name=#{member_name}
+            </if>
+
+            <if test="member_id!=null and member_id!=0 ">
+                and member_id=#{member_id}
+            </if>
+
+        </where>
+
+    </sql>
+    <sql id="where_getMemberByNameAndNumb2">
+
+        <where>
+
+            <if test="member_number!=null">
+                member_number=#{member_number}
+            </if>
+
+            <if test="member_name!=null">
+                and member_name=#{member_name}
+            </if>
+
+            <if test="member_id!=null and member_id!=0 ">
+                and member_id=#{member_id}
+            </if>
+
+        </where>
+
+    </sql>
+    <select id="getMemberByNameAndNumb" parameterType="smMember" resultType="SmMember">
+        select <include refid="query_SmMember"/> from sm_member <include refid="where_getMemberByNameAndNumb"/>
+    </select>
+
+    <select id="getAllSmLevel" resultType="SmLevel">
+        select <include refid="query_SmLevel"/> from sm_level
+    </select>
+
+    <update id="editSmLevelId" parameterType="smMember">
+        update sm_member
+        <set>
+            <if test="#{member_level_id} != null">member_level_id=#{member_level_id},</if>
+        </set>
+                            where member_id=#{member_id}
+    </update>
+
+</mapper>
