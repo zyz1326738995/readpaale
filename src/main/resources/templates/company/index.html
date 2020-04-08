@@ -70,7 +70,7 @@
           </div>
           <div class="col-lg-6 col-md-12 col-xs-12 p-0">
             <div class="intro-img">
-              <img id="company_image" src="img/marketDoor.png" alt="">
+              <img id="company_image" src="" alt="">
             </div>            
           </div>
         </div> 
@@ -475,12 +475,13 @@
 
           var welcome=$("#company_name").html();
           var company_image=SlickCompany.company_image;
+          //alert(company_image);
           $("#company_name").text(welcome+SlickCompany.company_name);
           $("#company_title").text(SlickCompany.company_title);
           $("#company_hot_message").text(SlickCompany.company_hot_message);
           $("#company_hot_message2").text(SlickCompany.company_hot_message2);
           $("#copy_gufen").text(SlickCompany.copy_gufen);
-           $("#company_image").attr("src",company_image);
+          $("#company_image").attr("src",company_image);
       });
       $.post("/SlickAboutController/getSlickAboutList",data,function (SlickAboutList){
 

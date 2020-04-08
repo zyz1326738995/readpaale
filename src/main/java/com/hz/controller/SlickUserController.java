@@ -3,11 +3,14 @@ package com.hz.controller;
 import com.hz.pojo.SlickAdmin;
 import com.hz.pojo.SlickUser;
 import com.hz.service.SlickUserService;
+import com.hz.utils.FileUpload;
 import com.hz.utils.Pager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -18,6 +21,17 @@ import java.util.List;
 public class SlickUserController {
      @Resource
     private SlickUserService slickUserService;
+
+
+    @Value("${file.location.path}")
+    private String fileLocation;
+    @RequestMapping("/insert")
+    public String  insert(MultipartFile file,SlickUser slickUser){
+        String uri = FileUpload.upload(file,"/upload",fileLocation);
+        System.out.println(slickUser.getUser_name()+":url");
+        System.out.println(uri+":url");
+        return "login";
+    }
 
     /**
      *

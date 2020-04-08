@@ -27,7 +27,7 @@ public interface SlickUserMapper {
      * @return admin信息
      * @throws Exception
      */
-    public List<SlickUser> getAllUser(@Param("curr") Integer curr,
+    public List<SlickUser> getAllUser   (@Param("curr") Integer curr,
                                         @Param("limit") Integer limit,
                                         @Param("datemin") String datemin,//最小时间
                                         @Param("datemax") String datemax,//最大时间

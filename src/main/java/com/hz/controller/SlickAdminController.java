@@ -88,7 +88,7 @@ public class SlickAdminController {
         SlickCompany slickCompany=new SlickCompany();
         slickCompany.setCompany_name(company_name);
         SlickCompany slickCompany1=slickCompanyService.getSlickCompanyByName(slickCompany);
-        slickAdmin.setCompany_id(slickCompany1.getCompany_id());
+        //slickAdmin.setCompany_id(slickCompany1.getCompany_id());
         return slickAdminService.addSlickAdmin(slickAdmin);
     }
 
