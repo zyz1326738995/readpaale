@@ -18,7 +18,7 @@ import java.util.Map;
 public class BaseFrontController {
 	
 	/**
-	 * slf4j 日志 logger
+	 * slf4j 日志 logger ssssss
 	 */
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
